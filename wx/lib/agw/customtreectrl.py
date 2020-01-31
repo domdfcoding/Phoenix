@@ -3,8 +3,9 @@
 # Inspired By And Heavily Based On wxGenericTreeCtrl.
 #
 # Andrea Gavana, @ 17 May 2006
-# Latest Revision: 02 Jul 2018, 00.10 GMT
+# Latest Revision: 31 Jan 2020, 22.00 GMT
 # Modified by Helio Guilherme, @ 26 Apr 2018
+# Modified by Dominic Davis-Foster, @ 31 Jan 2020
 #
 # TODO List
 #
@@ -5492,6 +5493,33 @@ class CustomTreeCtrl(wx.ScrolledWindow):
         self._sendEvent = True
         self._dirty = True
 
+    def CollapseAllChildren(self, item):
+        """
+        Collapses all the items children of the input item.
+
+        :param `item`: an instance of :class:`GenericTreeItem`.
+
+        :note: This method suppresses the ``EVT_TREE_ITEM_EXPANDING`` and
+         ``EVT_TREE_ITEM_EXPANDED`` events because expanding many items int the
+         control would be too slow then.
+        """
+
+        self._sendEvent = False
+        if not self.HasAGWFlag(TR_HIDE_ROOT) or item != self.GetRootItem():
+            self.Collapse(item)
+            if self.IsExpanded(item):
+                self._sendEvent = True
+                return
+
+        child, cookie = self.GetFirstChild(item)
+
+        while child:
+            self.CollapseAllChildren(child)
+            child, cookie = self.GetNextChild(item, cookie)
+
+        self._sendEvent = True
+        self._dirty = True
+
 
     def ExpandAll(self):
         """
@@ -5508,7 +5536,21 @@ class CustomTreeCtrl(wx.ScrolledWindow):
         self._sendEvent = True
         self._dirty = True
 
+    def CollapseAll(self):
+        """
+        Collapses all :class:`CustomTreeCtrl` items.
 
+        :note: This method suppresses the ``EVT_TREE_ITEM_EXPANDING`` and
+         ``EVT_TREE_ITEM_EXPANDED`` events because expanding many items int the
+         control would be too slow then.
+        """
+        
+        if self._anchor:
+            self.CollapseAllChildren(self._anchor)
+        
+        self._sendEvent = True
+        self._dirty = True
+    
     def Collapse(self, item):
         """
         Collapse an item, sending a ``EVT_TREE_ITEM_COLLAPSING`` and
