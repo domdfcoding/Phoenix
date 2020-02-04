@@ -6662,6 +6662,14 @@ class CustomTreeCtrl(wx.ScrolledWindow):
             self.SetItemHilight(item, False)
             self.RefreshLine(item)
 
+    def UnselectItem(self, item):
+        """
+        Deselects an item.
+
+        :param `item`: an instance of :class:`GenericTreeItem`;
+        """
+
+        self.SelectItem(item, False)
 
     def SetFocusedItem(self, item):
         """Sets the currently focused item.

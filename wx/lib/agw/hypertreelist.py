@@ -4570,7 +4570,7 @@ _methods = ["GetIndent", "SetIndent", "GetSpacing", "SetSpacing", "GetImageList"
             "HideItem", "DeleteAllItems", "ItemHasChildren", "ToggleItemSelection", "SetItemType", "GetDragFullScreen", "SetDragFullScreen",
             "GetCurrentItem", "SetItem3State", "SetItem3StateValue", "GetItem3StateValue", "IsItem3State", "GetPrev",
             "GetNextShown", "GetPrevShown", "SetItemData", "GetItemData", "IsVisible", "EnableBellOnNoMatch", 
-            "CollapseAll", "CollapseAllChildren"]
+            "CollapseAll", "CollapseAllChildren", "UnselectItem"]
 
 
 class HyperTreeList(wx.Control):
