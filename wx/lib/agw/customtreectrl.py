@@ -6224,10 +6224,10 @@ class CustomTreeCtrl(wx.ScrolledWindow):
          ``EVT_TREE_ITEM_EXPANDED`` events because expanding many items int the
          control would be too slow then.
         """
-        
+
         if self._anchor:
             self.CollapseAllChildren(self._anchor)
-        
+
         self._sendEvent = True
         self._dirty = True
     
